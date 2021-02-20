@@ -3,7 +3,6 @@ import "./products.css";
 import formatCurrency from "../../util";
 
 const Products = (props) => {
-  console.log(props.products);
   return (
     <div className="Products">
       {props.products.map((product) => {

@@ -71,3 +71,8 @@ footer {
 .sidebar {
   flex: 1 20rem;
 }
+
+.horizontalLine {
+  border-bottom: 2px solid rgba(119, 117, 117, 0.47);
+  margin: 10px 50px;
+}
