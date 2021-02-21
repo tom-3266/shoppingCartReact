@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import formatCurrency from "../../util";
 import "./cart.css";
 import Fade from 'react-reveal/Fade'
+import shortid from "shortid";
+import axios from '../../axios-orders'
 
 const Cart = (props) => {
   const [showForm, setShowForm] = useState(false);
@@ -17,13 +19,23 @@ const Cart = (props) => {
   const createOrder = (e) => {
     e.preventDefault();
     const order = {
+      id:shortid.generate(),
       name: formValue.name,
       email: formValue.email,
       address: formValue.address,
       phone: formValue.phone,
       cartItems: props.cartItems,
     };
-    props.createOrder(order)
+    
+    axios
+      .post("/orders.json", order)
+      .then((response) => {
+        console.log(response)
+        // history.push("/");
+      })
+      .catch((error) => {
+        console.log(error)
+      });
   };
  
     const handleInput = (e) => {
@@ -44,7 +56,7 @@ const Cart = (props) => {
           <ul className="cart-items">
             {props.cartItems.map((items) => {
               return (
-                <li id={items._id + items.count}>
+                <li id={items._id + items.count }>
                   <div>
                     <img src={items.image} alt={items.title} />
                   </div>
