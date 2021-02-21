@@ -10,7 +10,9 @@ const App = () => {
     products: data.products,
     size: "",
     sortP: "",
-    cartItems: [],
+    cartItems: localStorage.getItem("cartItems")
+      ? JSON.parse(localStorage.getItem("cartItems"))
+      : [],
   });
   const sizeProducts = (e) => {
     console.log("size");
@@ -60,10 +62,12 @@ const App = () => {
       if (item._id === product._id) {
         item.count++;
         alreadyInCart = true;
+        localStorage.setItem("cartItems", JSON.stringify(cartItems));
       }
     });
     if (!alreadyInCart) {
       cartItems.push({ ...product, count: 1 });
+      localStorage.setItem("cartItems", JSON.stringify(cartItems));
     }
     setDisplayData((state) => {
       return { ...state, cartItems };
@@ -72,7 +76,6 @@ const App = () => {
   const removeHandler = (id) => {
     console.log("inside remove");
     const cartItems = displayData.cartItems.slice();
-    let alreadyInCart = true;
     cartItems.forEach((item) => {
       if (item._id === id) {
         item.count--;
@@ -82,13 +85,14 @@ const App = () => {
         }
       }
     });
-    // if (!alreadyInCart) {
-    //   cartItems.pop({ item });
-    // }
     setDisplayData((state) => {
       return { ...state, cartItems };
     });
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
   };
+  const createOrder = (order) =>{
+    alert("Save Order for " + order.name)
+  }
   return (
     <div className="grid-container">
       <header>
@@ -114,6 +118,7 @@ const App = () => {
             <Cart
               cartItems={displayData.cartItems}
               removeHandler={removeHandler}
+              createOrder={createOrder}
             />
           </div>
         </div>

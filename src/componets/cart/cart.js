@@ -1,9 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import formatCurrency from "../../util";
 import "./cart.css";
 
 const Cart = (props) => {
-  console.log(props.cartItems);
+  const [showForm, setShowForm] = useState(false);
+  const [formValue, setFormValues] = useState({
+    name: "",
+    email: "",
+    address: "",
+    phone: "",
+  });
+  const handleCheckout = () => {
+    setShowForm(true);
+  };
+  const createOrder = (e) => {
+    e.preventDefault();
+    const order = {
+      name: formValue.name,
+      email: formValue.email,
+      address: formValue.address,
+      phone: formValue.phone,
+      cartItems: props.cartItems,
+    };
+    props.createOrder(order)
+  };
+  const handleInput = (e) => {
+    setFormValues((state) => {
+      return { ...state, [e.target.name]: e.target.value };
+    });
+  };
   return (
     <div className="Main-Cart">
       <div className="Cart-Header">
@@ -47,10 +72,73 @@ const Cart = (props) => {
                 )}
               </div>
             </div>
-            <button className='button primary'>Proceed</button>
+            <button className="button primary" onClick={handleCheckout}>
+              Proceed
+            </button>
           </div>
         </div>
       ) : null}
+      {showForm && props.cartItems.length > 0 && (
+        <div>
+          <div className="horizontal-line"></div>
+          <div className="checkout-header">Checkout</div>
+          <div className="cart">
+            <form onSubmit={createOrder}>
+              <ul className="form-container">
+                <li>
+                  <label htmlFor="email">Name</label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={formValue.name}
+                    required
+                    onChange={handleInput}
+                  />
+                </li>
+                <li>
+                  <label htmlFor="email">Email</label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formValue.email} 
+                    required
+                    onChange={handleInput}
+                  />
+                </li>
+                <li>
+                  <label htmlFor="address">Address</label>
+                  <input
+                    type="text"
+                    name="address"
+                    value={formValue.address}
+                    required
+                    onChange={handleInput}
+                  />
+                </li>
+                <li>
+                  <label htmlFor="phone">Phone No</label>
+                  <input
+                    type="text"
+                    name="phone"
+                    value={formValue.phone}
+                    required
+                    onChange={handleInput}
+                  />
+                </li>
+                <li>
+                  <button
+                    className="button primary"
+                    type="submit"
+                    onClick={createOrder}
+                  >
+                    Create Order
+                  </button>
+                </li>
+              </ul>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
