@@ -72,7 +72,6 @@ const App = () => {
   const removeHandler = (id) => {
     console.log("inside remove");
     const cartItems = displayData.cartItems.slice();
-    let alreadyInCart = true;
     cartItems.forEach((item) => {
       if (item._id === id) {
         item.count--;
