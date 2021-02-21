@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import formatCurrency from "../../util";
 import "./cart.css";
+import Fade from 'react-reveal/Fade'
 
 const Cart = (props) => {
   const [showForm, setShowForm] = useState(false);
@@ -11,7 +12,7 @@ const Cart = (props) => {
     phone: "",
   });
   const handleCheckout = () => {
-    setShowForm(true);
+    setShowForm(!showForm);
   };
   const createOrder = (e) => {
     e.preventDefault();
@@ -24,11 +25,12 @@ const Cart = (props) => {
     };
     props.createOrder(order)
   };
-  const handleInput = (e) => {
-    setFormValues((state) => {
-      return { ...state, [e.target.name]: e.target.value };
-    });
-  };
+ 
+    const handleInput = (e) => {
+      setFormValues((state) => {
+        return { ...state, [e.target.name]: e.target.value };
+      });
+    };
   return (
     <div className="Main-Cart">
       <div className="Cart-Header">
@@ -38,26 +40,28 @@ const Cart = (props) => {
       </div>
       <div className="horizontal-line"></div>
       <div className="cart">
-        <ul className="cart-items">
-          {props.cartItems.map((items) => {
-            return (
-              <li id={items._id + items.count}>
-                <div>
-                  <img src={items.image} alt={items.title} />
-                </div>
-                <div>
-                  <div>{items.title}</div>
-                  <div className="right">
-                    {formatCurrency(items.price)} x {items.count}{" "}
-                    <button onClick={() => props.removeHandler(items._id)}>
-                      Remove
-                    </button>
+        <Fade left cascade>
+          <ul className="cart-items">
+            {props.cartItems.map((items) => {
+              return (
+                <li id={items._id + items.count}>
+                  <div>
+                    <img src={items.image} alt={items.title} />
                   </div>
-                </div>
-              </li>
-            );
-          })}
-        </ul>
+                  <div>
+                    <div>{items.title}</div>
+                    <div className="right">
+                      {formatCurrency(items.price)} x {items.count}{" "}
+                      <button onClick={() => props.removeHandler(items._id)}>
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        </Fade>
       </div>
       {props.cartItems.length > 0 ? (
         <div>
@@ -73,71 +77,73 @@ const Cart = (props) => {
               </div>
             </div>
             <button className="button primary" onClick={handleCheckout}>
-              Proceed
+              {!showForm ? "Proceed" : "Cancel"}
             </button>
           </div>
         </div>
       ) : null}
       {showForm && props.cartItems.length > 0 && (
-        <div>
-          <div className="horizontal-line"></div>
-          <div className="checkout-header">Checkout</div>
-          <div className="cart">
-            <form onSubmit={createOrder}>
-              <ul className="form-container">
-                <li>
-                  <label htmlFor="email">Name</label>
-                  <input
-                    type="text"
-                    name="name"
-                    value={formValue.name}
-                    required
-                    onChange={handleInput}
-                  />
-                </li>
-                <li>
-                  <label htmlFor="email">Email</label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formValue.email} 
-                    required
-                    onChange={handleInput}
-                  />
-                </li>
-                <li>
-                  <label htmlFor="address">Address</label>
-                  <input
-                    type="text"
-                    name="address"
-                    value={formValue.address}
-                    required
-                    onChange={handleInput}
-                  />
-                </li>
-                <li>
-                  <label htmlFor="phone">Phone No</label>
-                  <input
-                    type="text"
-                    name="phone"
-                    value={formValue.phone}
-                    required
-                    onChange={handleInput}
-                  />
-                </li>
-                <li>
-                  <button
-                    className="button primary"
-                    type="submit"
-                    onClick={createOrder}
-                  >
-                    Create Order
-                  </button>
-                </li>
-              </ul>
-            </form>
+        <Fade right cascade>
+          <div>
+            <div className="horizontal-line"></div>
+            <div className="checkout-header">Checkout</div>
+            <div className="cart">
+              <form onSubmit={createOrder}>
+                <ul className="form-container">
+                  <li>
+                    <label htmlFor="email">Name</label>
+                    <input
+                      type="text"
+                      name="name"
+                      value={formValue.name}
+                      required
+                      onChange={handleInput}
+                    />
+                  </li>
+                  <li>
+                    <label htmlFor="email">Email</label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={formValue.email}
+                      required
+                      onChange={handleInput}
+                    />
+                  </li>
+                  <li>
+                    <label htmlFor="address">Address</label>
+                    <input
+                      type="text"
+                      name="address"
+                      value={formValue.address}
+                      required
+                      onChange={handleInput}
+                    />
+                  </li>
+                  <li>
+                    <label htmlFor="phone">Phone No</label>
+                    <input
+                      type="text"
+                      name="phone"
+                      value={formValue.phone}
+                      required
+                      onChange={handleInput}
+                    />
+                  </li>
+                  <li>
+                    <button
+                      className="button primary"
+                      type="submit"
+                      onClick={createOrder}
+                    >
+                      Create Order
+                    </button>
+                  </li>
+                </ul>
+              </form>
+            </div>
           </div>
-        </div>
+        </Fade>
       )}
     </div>
   );

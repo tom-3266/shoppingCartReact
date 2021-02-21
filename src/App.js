@@ -96,7 +96,7 @@ const App = () => {
   return (
     <div className="grid-container">
       <header>
-        <a href="/">Shoppify Cart</a>
+        <a href="/">Wallpaper Cart</a>
       </header>
       <main>
         <div className="content">
