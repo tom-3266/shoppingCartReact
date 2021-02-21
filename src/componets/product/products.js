@@ -6,13 +6,13 @@ import Modal from "react-modal";
 import Zoom from "react-reveal/Zoom";
 
 const Products = (props) => {
-  const [productModal, setProductModal] = useState(null);
+  const [productModal, setProductModal] = useState();
   const openModal = (product) => {
     console.log(product)
     setProductModal(product);
   };
   const closeModal = () => {
-    setProductModal(null);
+    setProductModal();
   };
   return (
     <div>
@@ -20,7 +20,7 @@ const Products = (props) => {
         <ul className="Products">
           {props.products.map((product) => {
             return (
-              <li key={product._id}>
+              <li key={product._id+product.price}>
                 <div className="Product">
                   <a
                     href={"#" + product._id}
@@ -45,7 +45,7 @@ const Products = (props) => {
         </ul>
       </Fade>
       {productModal && (
-        <Modal isOpen={true} onRequestClose={closeModal}>
+        <Modal isOpen={true} onRequestClose={closeModal} ariaHideApp={false} >
           <Zoom>
             <button className="close-modal" onClick={closeModal}>
               x

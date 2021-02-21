@@ -44,7 +44,7 @@ const Cart = (props) => {
           <ul className="cart-items">
             {props.cartItems.map((items) => {
               return (
-                <li id={items._id + items.count}>
+                <li id={items._id + items.count }>
                   <div>
                     <img src={items.image} alt={items.title} />
                   </div>
