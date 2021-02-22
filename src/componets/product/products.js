@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./products.css";
 import formatCurrency from "../../util";
-import Fade from "react-reveal/Fade";
 import Modal from "react-modal";
 import Zoom from "react-reveal/Zoom";
+import { connect } from "react-redux";
+import { fetchProducts } from "../../action/productAction";
 
 const Products = (props) => {
   const [productModal, setProductModal] = useState();
@@ -14,9 +15,19 @@ const Products = (props) => {
   const closeModal = () => {
     setProductModal();
   };
+  useEffect(() => {
+    props.fetchProducts();
+  },[]);
   return (
     <div>
-      <Fade bottom cascade>
+      {!props.products ? (
+        <div className="center">
+          <div class="lds-ripple">
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+      ) : (
         <ul className="Products">
           {props.products.map((product) => {
             return (
@@ -43,7 +54,7 @@ const Products = (props) => {
             );
           })}
         </ul>
-      </Fade>
+      )}
       {productModal && (
         <Modal isOpen={true} onRequestClose={closeModal} ariaHideApp={false}>
           <Zoom>
@@ -91,4 +102,6 @@ const Products = (props) => {
   );
 };
 
-export default Products;
+export default connect((state) => ({ products: state.products.items }), {
+  fetchProducts,
+})(Products);
