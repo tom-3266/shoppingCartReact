@@ -4,6 +4,8 @@ import data from "./data.json";
 import Products from "./componets/product/products";
 import { Filter } from "./componets/Filter/filter";
 import { Cart } from "./componets/cart/cart";
+import { Provider } from "react-redux";
+import store from './store/store'
 
 const App = () => {
   const [displayData, setDisplayData] = useState({
@@ -90,41 +92,43 @@ const App = () => {
     });
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
   };
-  const createOrder = (order) =>{
-    alert("Save Order for " + order.name)
-  }
+  const createOrder = (order) => {
+    alert("Save Order for " + order.name);
+  };
   return (
-    <div className="grid-container">
-      <header>
-        <a href="/">Wallpaper Cart</a>
-      </header>
-      <main>
-        <div className="content">
-          <div className="main">
-            <Filter
-              count={displayData.products.length}
-              sortP={displayData.sortP}
-              size={displayData.size}
-              sortProducts={sortProducts}
-              sizeProducts={sizeProducts}
-            />
-            <div className="horizontalLine"></div>
-            <Products
-              products={displayData.products}
-              addToCart={addToCartHandler}
-            />
+    <Provider store={store}>
+      <div className="grid-container">
+        <header>
+          <a href="/">Wallpaper Cart</a>
+        </header>
+        <main>
+          <div className="content">
+            <div className="main">
+              <Filter
+                count={displayData.products.length}
+                sortP={displayData.sortP}
+                size={displayData.size}
+                sortProducts={sortProducts}
+                sizeProducts={sizeProducts}
+              />
+              <div className="horizontalLine"></div>
+              <Products
+                products={displayData.products}
+                addToCart={addToCartHandler}
+              />
+            </div>
+            <div className="sidebar">
+              <Cart
+                cartItems={displayData.cartItems}
+                removeHandler={removeHandler}
+                createOrder={createOrder}
+              />
+            </div>
           </div>
-          <div className="sidebar">
-            <Cart
-              cartItems={displayData.cartItems}
-              removeHandler={removeHandler}
-              createOrder={createOrder}
-            />
-          </div>
-        </div>
-      </main>
-      <footer>All right is reserved</footer>
-    </div>
+        </main>
+        <footer>All right is reserved</footer>
+      </div>
+    </Provider>
   );
 };
 
