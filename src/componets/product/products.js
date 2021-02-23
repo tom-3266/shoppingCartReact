@@ -23,7 +23,7 @@ const Products = (props) => {
     <div>
       {!props.products ? (
         <div className="center">
-          <div class="lds-ripple">
+          <div className="lds-ripple">
             <div></div>
             <div></div>
           </div>

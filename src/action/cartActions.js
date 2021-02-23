@@ -1,8 +1,9 @@
 import { ADD_TO_CART, REMOVE_FROM_CART } from "../actionCreators";
 
-export const addToCart = (product, items) => (dispatch) => {
-  // console.log(porduct,items)
-  const cartItems = items.slice();
+export const addToCart = (product) => (dispatch,getState) => {
+  
+  const cartItems = getState().cart.cartItems.slice();
+  console.log(cartItems)
   let alreadyInCart = false;
   cartItems.forEach((item) => {
     if (item._id === product._id) {
@@ -18,11 +19,12 @@ export const addToCart = (product, items) => (dispatch) => {
   dispatch({ type: ADD_TO_CART, payload: { cartItems } });
 };
 
-export const removeFromCart = (id,cartItems) => (dispatch) => {
-  console.log(id,cartItems)
-  // const cartItems = items.slice();
+export const removeFromCart =(product)=> (dispatch,getState) => {
+  console.log(product)
+  const cartItems = getState().cart.cartItems.slice();
+  console.log(cartItems)
   cartItems.forEach((item) => {
-    if (item._id === id) {
+    if (item._id === product._id) {
       item.count--;
       if (item.count < 1) {
         const index = cartItems.indexOf(item);
@@ -33,3 +35,11 @@ export const removeFromCart = (id,cartItems) => (dispatch) => {
   dispatch({ type: REMOVE_FROM_CART, payload: { cartItems } });
   localStorage.setItem("cartItems", JSON.stringify(cartItems));
 };
+
+// export const removeFromCart = (product) => (dispatch, getState) => {
+//   const cartItems = getState()
+//     .cart.cartItems.slice()
+//     .filter((x) => x._id !== product._id);
+//   dispatch({ type: REMOVE_FROM_CART, payload: { cartItems } });
+//   localStorage.setItem("cartItems", JSON.stringify(cartItems));
+// };

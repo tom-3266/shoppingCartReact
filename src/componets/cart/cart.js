@@ -45,6 +45,7 @@ const Cart = (props) => {
         return { ...state, [e.target.name]: e.target.value };
       });
     };
+    console.log(props.cartItems)
   return (
     <div className="Main-Cart">
       <div className="Cart-Header">
@@ -53,31 +54,33 @@ const Cart = (props) => {
           : `You have ${props.cartItems.length} items in your cart`}
       </div>
       <div className="horizontal-line"></div>
-      <div className="cart">
-        <Fade left cascade>
-          <ul className="cart-items">
-            {props.cartItems.map((items) => {
-              console.log(items)
-              return (
-                <li id={items._id + items.count}>
+      {props.cartItems.length > 0 && (
+        <div className="cart">
+          <Fade left cascade >
+            <ul className="cart-items">
+              {props.cartItems.map((item) => (
+                <li key={item._id}>
                   <div>
-                    <img src={items.image} alt={items.title} />
+                    <img src={item.image} alt={item.title}></img>
                   </div>
                   <div>
-                    <div>{items.title}</div>
+                    <div>{item.title}</div>
                     <div className="right">
-                      {formatCurrency(items.price)} x {items.count}{" "}
-                      <button onClick={() => props.removeFromCart(items._id,props.cartItems)}>
+                      {formatCurrency(item.price)} x {item.count}{" "}
+                      <button
+                        className="button"
+                        onClick={() => props.removeFromCart(item)}
+                      >
                         Remove
                       </button>
                     </div>
                   </div>
                 </li>
-              );
-            })}
-          </ul>
-        </Fade>
-      </div>
+              ))}
+            </ul>
+          </Fade>
+        </div>
+      )}
       {props.cartItems.length > 0 ? (
         <div>
           <div className="horizontal-line"></div>
@@ -168,5 +171,5 @@ export default connect(
   (state) => ({
     cartItems: state.cart.cartItems,
   }),
-  removeFromCart
+  {removeFromCart}
 )(Cart);
