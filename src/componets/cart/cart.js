@@ -4,6 +4,8 @@ import "./cart.css";
 import Fade from 'react-reveal/Fade'
 import shortid from "shortid";
 import axios from '../../axios-orders'
+import { removeFromCart } from "../../action/cartActions";
+import {connect} from 'react-redux'
 
 const Cart = (props) => {
   const [showForm, setShowForm] = useState(false);
@@ -55,8 +57,9 @@ const Cart = (props) => {
         <Fade left cascade>
           <ul className="cart-items">
             {props.cartItems.map((items) => {
+              console.log(items)
               return (
-                <li id={items._id + items.count }>
+                <li id={items._id + items.count}>
                   <div>
                     <img src={items.image} alt={items.title} />
                   </div>
@@ -64,7 +67,7 @@ const Cart = (props) => {
                     <div>{items.title}</div>
                     <div className="right">
                       {formatCurrency(items.price)} x {items.count}{" "}
-                      <button onClick={() => props.removeHandler(items._id)}>
+                      <button onClick={() => props.removeFromCart(items._id,props.cartItems)}>
                         Remove
                       </button>
                     </div>
@@ -161,4 +164,9 @@ const Cart = (props) => {
   );
 };
 
-export { Cart };
+export default connect(
+  (state) => ({
+    cartItems: state.cart.cartItems,
+  }),
+  removeFromCart
+)(Cart);
