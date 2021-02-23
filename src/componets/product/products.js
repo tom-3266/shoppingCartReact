@@ -17,7 +17,7 @@ const Products = (props) => {
   };
   useEffect(() => {
     props.fetchProducts();
-  },[]);
+  }, []);
   return (
     <div>
       {!props.products ? (
@@ -102,6 +102,9 @@ const Products = (props) => {
   );
 };
 
-export default connect((state) => ({ products: state.products.items }), {
-  fetchProducts,
-})(Products);
+export default connect(
+  (state) => ({ products: state.products.filteredItems }),
+  {
+    fetchProducts,
+  }
+)(Products);
