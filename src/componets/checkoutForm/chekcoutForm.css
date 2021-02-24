@@ -1,0 +1,58 @@
+.checkout-header {
+  width: 100%;
+  margin: 2rem 14rem;
+  font-size: larger;
+}
+
+.form-container {
+  width: 100%;
+  padding: 0;
+  list-style-type: none;
+}
+.individual {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.button.primary {
+  background-color: #f0c040;
+  width: 100%;
+}
+.close-modal {
+  position: absolute;
+  right: 1rem;
+  top: 2.5rem;
+  z-index: 1000;
+  background-color: white;
+  border: hidden;
+}
+
+/* order modal */
+
+.order-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+.order-details li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  width: 500px;
+}
+.order-details li div {
+  padding: 10px;
+}
+.order-details .items {
+  padding: 0;
+  display: flex;
+  flex-wrap:wrap
+}
+.success-message {
+  color: green;
+  text-align: center;
+}

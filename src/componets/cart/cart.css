@@ -26,9 +26,7 @@
 .cart-items li div {
   padding: 0.5rem;
 }
-.cart-items li div:last-child {
-  /* flex: 1; */
-}
+
 .right {
   text-align: right;
 }
@@ -50,22 +48,7 @@ form {
 }
 
 /*form*/
-.checkout-header {
-  width: 100%;
-  margin: 2rem 14rem;
-  font-size: larger;
-}
 
-.form-container {
-  width: 100%;
-  padding: 0;
-  list-style-type: none;
-}
-.form-container li {
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
-}
 input {
   padding: 1rem;
   border: 0.1rem #c0c0c0 solid;
