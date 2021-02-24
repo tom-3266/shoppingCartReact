@@ -1,9 +1,8 @@
 import { ADD_TO_CART, REMOVE_FROM_CART } from "../actionCreators";
 
-export const addToCart = (product) => (dispatch,getState) => {
-  
+export const addToCart = (product) => (dispatch, getState) => {
   const cartItems = getState().cart.cartItems.slice();
-  console.log(cartItems)
+  console.log(cartItems);
   let alreadyInCart = false;
   cartItems.forEach((item) => {
     if (item._id === product._id) {
@@ -19,10 +18,9 @@ export const addToCart = (product) => (dispatch,getState) => {
   dispatch({ type: ADD_TO_CART, payload: { cartItems } });
 };
 
-export const removeFromCart =(product)=> (dispatch,getState) => {
-  console.log(product)
+export const removeFromCart = (product) => (dispatch, getState) => {
   const cartItems = getState().cart.cartItems.slice();
-  console.log(cartItems)
+
   cartItems.forEach((item) => {
     if (item._id === product._id) {
       item.count--;

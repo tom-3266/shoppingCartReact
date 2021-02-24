@@ -1,51 +1,18 @@
 import React, { useState } from "react";
-import formatCurrency from "../../util";
-import "./cart.css";
-import Fade from 'react-reveal/Fade'
-import shortid from "shortid";
-import axios from '../../axios-orders'
 import { removeFromCart } from "../../action/cartActions";
-import {connect} from 'react-redux'
+import { connect } from "react-redux";
+import CheckoutForm from "../checkoutForm/checkoutForm";
+import formatCurrency from "../../util";
+import Fade from "react-reveal/Fade";
+import "./cart.css";
 
 const Cart = (props) => {
   const [showForm, setShowForm] = useState(false);
-  const [formValue, setFormValues] = useState({
-    name: "",
-    email: "",
-    address: "",
-    phone: "",
-  });
+  
   const handleCheckout = () => {
     setShowForm(!showForm);
   };
-  const createOrder = (e) => {
-    e.preventDefault();
-    const order = {
-      id:shortid.generate(),
-      name: formValue.name,
-      email: formValue.email,
-      address: formValue.address,
-      phone: formValue.phone,
-      cartItems: props.cartItems,
-    };
-    
-    axios
-      .post("/orders.json", order)
-      .then((response) => {
-        console.log(response)
-        // history.push("/");
-      })
-      .catch((error) => {
-        console.log(error)
-      });
-  };
- 
-    const handleInput = (e) => {
-      setFormValues((state) => {
-        return { ...state, [e.target.name]: e.target.value };
-      });
-    };
-    console.log(props.cartItems)
+
   return (
     <div className="Main-Cart">
       <div className="Cart-Header">
@@ -56,7 +23,7 @@ const Cart = (props) => {
       <div className="horizontal-line"></div>
       {props.cartItems.length > 0 && (
         <div className="cart">
-          <Fade left cascade >
+          <Fade left cascade>
             <ul className="cart-items">
               {props.cartItems.map((item) => (
                 <li key={item._id}>
@@ -102,65 +69,9 @@ const Cart = (props) => {
       ) : null}
       {showForm && props.cartItems.length > 0 && (
         <Fade right cascade>
-          <div>
-            <div className="horizontal-line"></div>
-            <div className="checkout-header">Checkout</div>
-            <div className="cart">
-              <form onSubmit={createOrder}>
-                <ul className="form-container">
-                  <li>
-                    <label htmlFor="email">Name</label>
-                    <input
-                      type="text"
-                      name="name"
-                      value={formValue.name}
-                      required
-                      onChange={handleInput}
-                    />
-                  </li>
-                  <li>
-                    <label htmlFor="email">Email</label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={formValue.email}
-                      required
-                      onChange={handleInput}
-                    />
-                  </li>
-                  <li>
-                    <label htmlFor="address">Address</label>
-                    <input
-                      type="text"
-                      name="address"
-                      value={formValue.address}
-                      required
-                      onChange={handleInput}
-                    />
-                  </li>
-                  <li>
-                    <label htmlFor="phone">Phone No</label>
-                    <input
-                      type="text"
-                      name="phone"
-                      value={formValue.phone}
-                      required
-                      onChange={handleInput}
-                    />
-                  </li>
-                  <li>
-                    <button
-                      className="button primary"
-                      type="submit"
-                      onClick={createOrder}
-                    >
-                      Create Order
-                    </button>
-                  </li>
-                </ul>
-              </form>
-            </div>
-          </div>
+          <CheckoutForm cartItems={props.cartItems} totalPrice = {formatCurrency(
+                  props.cartItems.reduce((a, c) => a + c.price * c.count, 0)
+                )}/>
         </Fade>
       )}
     </div>
@@ -171,5 +82,5 @@ export default connect(
   (state) => ({
     cartItems: state.cart.cartItems,
   }),
-  {removeFromCart}
+  { removeFromCart }
 )(Cart);
