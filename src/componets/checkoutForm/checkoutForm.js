@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { texterror } from "./texterror";
+import { useHistory } from "react-router-dom";
 import shortid from "shortid";
 import Modal from "react-modal";
 import Zoom from "react-reveal/Zoom";
@@ -19,9 +20,12 @@ const validationSchema = Yup.object({
   name: Yup.string().required("Required"),
   email: Yup.string().email("Invalid email").required("Required"),
   address: Yup.string().required("Required"),
-  phoneNumber: Yup.number().required("Required"),
+  phoneNumber: Yup.number()
+    .required("Required")
+    .min(10, ({ min }) => `Phone Number must be at least ${min} characters`),
 });
 const CheckoutForm = (props) => {
+  const history = useHistory();
   const [showModal, setShowModal] = useState(false);
   const [order, setOrder] = useState([]);
 
@@ -42,14 +46,17 @@ const CheckoutForm = (props) => {
       .post("/orders.json", order)
       .then((response) => {
         console.log(response);
-        // history.push("/");
       })
       .catch((error) => {
         console.log(error);
       });
+      
+    
   };
 
   const closeModal = () => {
+    history.push("/");
+    localStorage.setItem("cartItems", JSON.stringify([]));
     setShowModal(false);
   };
 
