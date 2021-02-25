@@ -33,7 +33,7 @@ const CheckoutForm = (props) => {
       address: values.address,
       phone: values.phoneNumber,
       cartItems: props.cartItems,
-      totalPrice : props.totalPrice
+      totalPrice: props.totalPrice,
     };
     setShowModal(true);
     setOrder(order);
@@ -52,8 +52,7 @@ const CheckoutForm = (props) => {
   const closeModal = () => {
     setShowModal(false);
   };
-  console.log(order);
-  console.log(order.id);
+
   return (
     <div>
       <Formik

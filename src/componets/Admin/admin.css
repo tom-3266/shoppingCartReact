@@ -1,0 +1,29 @@
+.adminContainer {
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+  padding: 20px;
+  width: 100%;
+}
+.adminData {
+  width: 100%;
+  height: auto;
+  margin: auto;
+  padding: 2px 0px 0px 0px;
+  border: 3px solid #ccc;
+  margin-bottom: 20px;
+  border-radius: 20px;
+}
+
+.adminItems {
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+li {
+  list-style-type: none;
+}
+
+.adminItems li {
+  display: flex;
+}
