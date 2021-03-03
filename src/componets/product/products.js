@@ -18,7 +18,7 @@ const Products = (props) => {
   };
   useEffect(() => {
     props.fetchProducts();
-  }, []);
+  }, [props.products]);
   return (
     <div>
       {!props.products ? (
